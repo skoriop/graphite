@@ -87,6 +87,7 @@ impl Default for GraphicElement {
 #[derive(Clone, Debug, Hash, PartialEq, DynAny)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Artboard {
+	pub name: String,
 	pub graphic_group: GraphicGroup,
 	pub location: IVec2,
 	pub dimensions: IVec2,
@@ -97,6 +98,7 @@ pub struct Artboard {
 impl Artboard {
 	pub fn new(location: IVec2, dimensions: IVec2) -> Self {
 		Self {
+			name: "Artboard".to_owned(),
 			graphic_group: GraphicGroup::EMPTY,
 			location: location.min(location + dimensions),
 			dimensions: dimensions.abs(),
@@ -130,12 +132,13 @@ fn to_graphic_element<Data: Into<GraphicElement>>(data: Data) -> GraphicElement 
 	data.into()
 }
 
-pub struct ConstructArtboardNode<Contents, Location, Dimensions, Background, Clip> {
+pub struct ConstructArtboardNode<Contents, Location, Dimensions, Background, Clip, Name> {
 	contents: Contents,
 	location: Location,
 	dimensions: Dimensions,
 	background: Background,
 	clip: Clip,
+	name: Name,
 }
 
 #[node_fn(ConstructArtboardNode)]
@@ -146,10 +149,12 @@ async fn construct_artboard<Fut: Future<Output = GraphicGroup>>(
 	dimensions: IVec2,
 	background: Color,
 	clip: bool,
+	name: String,
 ) -> Artboard {
 	footprint.transform *= DAffine2::from_translation(location.as_dvec2());
 	let graphic_group = self.contents.eval(footprint).await;
 	Artboard {
+		name,
 		graphic_group,
 		location: location.min(location + dimensions),
 		dimensions: dimensions.abs(),

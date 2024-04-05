@@ -286,6 +286,7 @@ impl Fsm for ArtboardToolFsmState {
 					responses.add(GraphOperationMessage::NewArtboard {
 						id,
 						artboard: graphene_core::Artboard {
+							name: "Artboard".to_owned(),
 							graphic_group: graphene_core::GraphicGroup::EMPTY,
 							location: start.round().as_ivec2(),
 							dimensions: IVec2::splat(1),

@@ -394,8 +394,7 @@ impl GraphicElementRendered for Artboard {
 					attributes.push("font-size", "14px");
 				},
 				|render| {
-					// TODO: Use the artboard's layer name
-					render.svg.push("Artboard".into());
+					render.svg.push(self.name.clone().into());
 				},
 			);
 		}

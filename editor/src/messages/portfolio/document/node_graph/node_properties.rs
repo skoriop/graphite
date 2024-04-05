@@ -2272,7 +2272,10 @@ pub fn artboard_properties(document_node: &DocumentNode, node_id: NodeId, _conte
 	let clip = LayoutGroup::Row {
 		widgets: bool_widget(document_node, node_id, 4, "Clip", true),
 	};
-	vec![location, dimensions, background, clip]
+	let name = LayoutGroup::Row {
+		widgets: text_widget(document_node, node_id, 5, "Name", true),
+	};
+	vec![name, location, dimensions, background, clip]
 }
 
 pub fn color_fill_properties(document_node: &DocumentNode, node_id: NodeId, _context: &mut NodePropertiesContext) -> Vec<LayoutGroup> {

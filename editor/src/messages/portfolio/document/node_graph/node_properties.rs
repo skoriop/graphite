@@ -829,7 +829,7 @@ fn color_widget(document_node: &DocumentNode, node_id: NodeId, index: usize, nam
 				Separator::new(SeparatorType::Unrelated).widget_holder(),
 				color_props
 					.value(Some(x as Color))
-					.on_update(update_value(|x: &ColorButton| TaggedValue::Color(x.value.unwrap()), node_id, index))
+					.on_update(update_value(|x: &ColorButton| TaggedValue::Color(x.value.unwrap_or_default()), node_id, index))
 					.on_commit(commit_value)
 					.widget_holder(),
 			])
